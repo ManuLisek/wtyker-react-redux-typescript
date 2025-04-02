@@ -3,6 +3,11 @@ import { Pagination } from '@mui/material';
 import colors from '../../styles/colors';
 import size from '../../styles/breakpoints';
 
+export const StyledCenterDiv = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
 export const StyledSectionContainer = styled.section`
   width: 100%;
   display: flex;

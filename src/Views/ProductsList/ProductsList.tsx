@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import FilterBar from '../../Components/FilterBar/FilterBarContainer';
 import ProductSummary from '../../Components/ProductSummary/ProductSummary';
-import { StyledNoProductsContainer, StyledList, StyledSectionContainer, StyledPagination } from './ProductListStyles';
+import { StyledCenterDiv, StyledNoProductsContainer, StyledList, StyledSectionContainer, StyledPagination } from './ProductListStyles';
 import { getFilteredProducts } from '../../redux/productsListRedux';
 import { PropsFromRedux } from './ProductsListContainer';
 import { getProducts } from '../../api/axiosConfig';
@@ -40,11 +40,11 @@ const ProductsList = ({ products, filters, setProducts }: PropsFromRedux) => {
   }, [filters]);
 
   if (loading) {
-    return <div>Ładowanie produktów...</div>;
+    return <StyledCenterDiv>Ładowanie produktów...</StyledCenterDiv>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <StyledCenterDiv>{error}</StyledCenterDiv>;
   }
 
   const filteredProducts = getFilteredProducts({ products, filters });

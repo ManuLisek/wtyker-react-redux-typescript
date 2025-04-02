@@ -21,6 +21,7 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledFooterContainer = styled.footer`
+  width: 100%;
   margin-top: 180px;
   background-color: ${colors.dark};
   color: ${colors.white};
