@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { ProductType } from '../types/types';
 
+interface GetProductsResponse {
+  products: ProductType[];
+}
+
 interface GetProductResponse {
   product: ProductType;
 }
@@ -11,6 +15,20 @@ const instance = axios.create({
 
 const url = '/products.json';
 
+export const getProducts = () =>
+  instance({
+    method: 'GET',
+    url: url,
+    transformResponse: [
+      (response: string): GetProductsResponse => {
+        const products: ProductType[] = JSON.parse(response);
+        return {
+          products: products,
+        };
+      },
+    ],
+  });
+
 export const getProduct = (id: number) =>
   instance({
     method: 'GET',
@@ -18,7 +36,6 @@ export const getProduct = (id: number) =>
     transformResponse: [
       (response: string): GetProductResponse => {
         const products: ProductType[] = JSON.parse(response);
-
         const foundProduct = products.find((product) => product.id === id);
 
         if (!foundProduct) {
@@ -42,7 +59,3 @@ export const getProduct = (id: number) =>
       },
     ],
   });
-
-export default {
-  getProduct,
-};

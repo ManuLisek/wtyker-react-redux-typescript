@@ -1,14 +1,20 @@
 import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import ProductsList from './ProductsList';
-import { getFilteredProducts } from '../../redux/productsListRedux';
-import { RootState } from '../../types/types';
+import { ProductType, RootState } from '../../types/types';
+import { setProducts } from '../../redux/productsListRedux';
 
 const mapStateToProps = (state: RootState) => ({
-  products: getFilteredProducts(state),
+  products: state.products,
+  filters: state.filters,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setProducts: (products: ProductType[]) => dispatch(setProducts(products)),
+});
 
-export type ProductsListContainerProps = ConnectedProps<typeof connector>;
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(ProductsList);
