@@ -9,6 +9,7 @@ import {
   countProductsInCart,
   increaseQuantityInCart,
   decreaseQuantityInCart,
+  updateQuantityInCart,
   countTotalPrice,
 } from '../../redux/cartRedux';
 import { RootState, ProductInCartType } from '../../types/types';
@@ -25,6 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   increaseQuantityInCart: (product: ProductInCartType) => dispatch(increaseQuantityInCart(product)),
   decreaseQuantityInCart: (product: ProductInCartType) => dispatch(decreaseQuantityInCart(product)),
   countTotalPrice: (price: number) => dispatch(countTotalPrice(Number(price.toFixed(2)))),
+  updateQuantityInCart: (product: ProductInCartType, newQuantity: number) => dispatch(updateQuantityInCart({ product, newQuantity })),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

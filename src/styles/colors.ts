@@ -13,6 +13,7 @@ const colors = {
   lightgray: 'lightgray',
   facebook: '#3b5998',
   youtube: '#c4302b',
+  youtubeHovered: '#d5423c',
   twitter: '#00acee',
   shadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
 };

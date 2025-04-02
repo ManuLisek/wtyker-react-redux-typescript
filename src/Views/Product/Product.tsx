@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Popup from '../../Components/Popup/Popup';
 import SimpleImageSlider from 'react-simple-image-slider';
 import {
+  StyledContainer,
   StyledSliderContainer,
   StyledDescriptionContainer,
   StyledTitle,
@@ -12,7 +13,6 @@ import {
   StyledDescription,
   StyledAmountContainer,
   StyledProductQuantity,
-  StyledButtonContainer,
   StyledIconShoppingCart,
 } from './ProductStyles';
 import { CartState, ProductType } from '../../types/types';
@@ -50,7 +50,7 @@ const Product = ({
   const images = [{ url: product.image1 }, { url: product.image2 }];
 
   function handleIncreaseItemsQuantity() {
-    if (itemsQuantity < 9) {
+    if (itemsQuantity < 99) {
       setItemsQuantity((prev) => prev + 1);
     }
   }
@@ -58,6 +58,22 @@ const Product = ({
   function handleDecreaseItemsQuantity() {
     if (itemsQuantity > 1) {
       setItemsQuantity((prev) => prev - 1);
+    }
+  }
+
+  function handleQuantityChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    if (value === '') {
+      setItemsQuantity(NaN);
+      return;
+    }
+
+    const numValue = parseInt(value);
+    if (!isNaN(numValue)) {
+      if (numValue >= 1 && numValue <= 99) {
+        setItemsQuantity(numValue);
+      }
     }
   }
 
@@ -72,7 +88,7 @@ const Product = ({
   }
 
   return (
-    <>
+    <StyledContainer>
       <StyledSliderContainer>
         <SimpleImageSlider width={'inherit'} height={'inherit'} images={images} bgColor="inherit" showNavs showBullets />
       </StyledSliderContainer>
@@ -83,20 +99,26 @@ const Product = ({
         <StyledAmountContainer>
           <div>Ilość:</div>
           <RoundButton onClick={handleDecreaseItemsQuantity}>-</RoundButton>
-          <StyledProductQuantity>{itemsQuantity}</StyledProductQuantity>
+          <StyledProductQuantity
+            value={itemsQuantity}
+            onChange={handleQuantityChange}
+            onBlur={(e) => {
+              if (e.target.value === '' || isNaN(itemsQuantity)) {
+                setItemsQuantity(1);
+              }
+            }}
+          />
           <RoundButton onClick={handleIncreaseItemsQuantity}>+</RoundButton>
         </StyledAmountContainer>
-        <StyledButtonContainer>
-          <Button onClick={handleAddProductToCart}>
-            Dodaj do koszyka
-            <StyledIconShoppingCart className="fas fa-shopping-cart" />
-          </Button>
-        </StyledButtonContainer>
+        <Button onClick={handleAddProductToCart}>
+          Dodaj do koszyka
+          <StyledIconShoppingCart className="fas fa-shopping-cart" />
+        </Button>
       </StyledDescriptionContainer>
       <Popup trigger={showPopup} closePopup={() => setShowPopup(false)}>
         <h3>Ten produkt jest już w koszyku</h3>
       </Popup>
-    </>
+    </StyledContainer>
   );
 };
 

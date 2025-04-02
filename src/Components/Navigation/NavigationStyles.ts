@@ -30,16 +30,17 @@ export const StyledIconsContainer = styled.div`
   }
 `;
 
-export const StyledIconCart = styled.i`
-  background-color: ${colors.secondary};
+export const StyledIconCart = styled.div<{ $hasItems: boolean }>`
+  background-color: ${(props) => (props.$hasItems ? colors.youtube : colors.secondary)};
   color: white;
-  border: 2px solid ${colors.secondary};
+  border: 2px solid ${(props) => (props.$hasItems ? colors.youtube : colors.secondary)};
+  color: white;
   border-radius: 50%;
   padding: 10px;
   margin: 15px;
   &:hover {
-    background-color: ${colors.secondaryHovered};
-    border-color: ${colors.secondaryHovered};
+    background-color: ${(props) => (props.$hasItems ? colors.youtubeHovered : colors.secondaryHovered)};
+    border: 2px solid ${(props) => (props.$hasItems ? colors.youtubeHovered : colors.secondaryHovered)};
   }
 `;
 
