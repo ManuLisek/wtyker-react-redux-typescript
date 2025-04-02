@@ -1,14 +1,42 @@
+import { useEffect, useState } from 'react';
 import FilterBar from '../../Components/FilterBar/FilterBarContainer';
 import ProductSummary from '../../Components/ProductSummary/ProductSummary';
-import { ProductType } from '../../types/types';
 import { StyledNoProductsContainer, StyledList, StyledSectionContainer } from './ProductListStyles';
+import { getFilteredProducts } from '../../redux/productsListRedux';
+import { PropsFromRedux } from './ProductsListContainer';
+import { getProducts } from '../../api/axiosConfig';
 
-interface ProductsListProps {
-  products: ProductType[];
-}
+const ProductsList = ({ products, filters, setProducts }: PropsFromRedux) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-const ProductsList = ({ products }: ProductsListProps) => {
-  const productsList = products.map((product: ProductType) => <ProductSummary key={product.id} product={product} />);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await getProducts();
+        setProducts(response.data.products);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania produktów');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [setProducts]);
+
+  if (loading) {
+    return <div>Ładowanie produktów...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const filteredProducts = getFilteredProducts({ products, filters });
+  const productsList = filteredProducts.map((product) => <ProductSummary key={product.id} product={product} />);
 
   return (
     <StyledSectionContainer>

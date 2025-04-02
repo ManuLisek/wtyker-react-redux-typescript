@@ -1,10 +1,10 @@
-import { products } from '../data/products/products';
 import { combineReducers, createStore, Store, AnyAction } from 'redux';
 import { persistStore, persistReducer, Persistor } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import filtersReducer from './filtersRedux';
 import cartReducer from './cartRedux';
-import { FiltersState, CartState, RootState, PersistState, ProductType } from '../types/types';
+import productsReducer from './productsListRedux';
+import { FiltersState, CartState, RootState, PersistState } from '../types/types';
 
 export const filtersInitialState: FiltersState = {
   searchPhrase: '',
@@ -25,7 +25,7 @@ export const cartInitialState: CartState = {
 };
 
 const initialState: RootState = {
-  products,
+  products: [],
   filters: filtersInitialState,
   cart: cartInitialState,
   _persist: {
@@ -35,7 +35,7 @@ const initialState: RootState = {
 };
 
 const reducers = {
-  products: (state: ProductType[] = initialState.products) => state,
+  products: productsReducer,
   filters: filtersReducer,
   cart: cartReducer,
   _persist: (state: PersistState = initialState._persist) => state,
@@ -46,7 +46,6 @@ const combinedReducers = combineReducers(reducers);
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

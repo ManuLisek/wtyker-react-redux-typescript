@@ -1,4 +1,11 @@
-import { ProductType, FiltersState } from '../types/types';
+import { Action, ProductType, FiltersState } from '../types/types';
+
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+
+export const setProducts = (products: ProductType[]) => ({
+  type: SET_PRODUCTS,
+  payload: products,
+});
 
 export const getFilteredProducts = ({ products, filters }: { products: ProductType[]; filters: FiltersState }) => {
   let output = [...products];
@@ -28,3 +35,12 @@ export const getFilteredProducts = ({ products, filters }: { products: ProductTy
 
   return output;
 };
+
+export default function reducer(state: ProductType[] = [], action: Action): ProductType[] {
+  switch (action.type) {
+    case SET_PRODUCTS:
+      return action.payload as ProductType[];
+    default:
+      return state;
+  }
+}
