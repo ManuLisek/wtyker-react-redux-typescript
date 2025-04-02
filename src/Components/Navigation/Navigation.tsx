@@ -12,7 +12,7 @@ const Navigation = ({ cart }: NavigationProps) => {
   return (
     <StyledNavContainer>
       <div>
-        <Link to="/">
+        <Link to="/products">
           <StyledLogo src="https://res.cloudinary.com/dorwcwygq/image/upload/v1636226766/wtyker/Wtyker_vt9mu8.png" alt="logo" />
         </Link>
       </div>
