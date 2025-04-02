@@ -3,7 +3,6 @@ import Button from '../Button/Button';
 import Popup from '../Popup/Popup';
 import validator from 'validator';
 import {
-  StyledButtonContainer,
   StyledEmailContainer,
   StyledEmailError,
   StyledFacebook,
@@ -89,9 +88,7 @@ const Footer = () => {
             />
             <StyledEmailError>{emailError ? emailError : ''}</StyledEmailError>
           </StyledInputContainer>
-          <StyledButtonContainer>
-            <Button onClick={handleEmailSent}>Wyślij</Button>
-          </StyledButtonContainer>
+          <Button onClick={handleEmailSent}>Wyślij</Button>
         </StyledEmailContainer>
         <Popup trigger={showPopup} closePopup={() => setShowPopup(false)}>
           <h3>Teraz nie przegapisz żadnej promocji!</h3>

@@ -19,7 +19,7 @@ const Navigation = ({ cart }: NavigationProps) => {
       <StyledIconsContainer>
         <Search />
         <Link to="/cart" aria-label="cart">
-          <StyledIconCart className="fas fa-shopping-basket">
+          <StyledIconCart $hasItems={cart.totalQuantity > 0} className="fas fa-shopping-basket">
             <StyledQuantityInCart>{cart.totalQuantity}</StyledQuantityInCart>
           </StyledIconCart>
         </Link>

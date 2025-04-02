@@ -70,15 +70,11 @@ export const StyledLink = styled.a`
   color: ${colors.white};
 `;
 
-export const StyledButtonContainer = styled.div`
-  margin-left: 20px;
-`;
-
 export const StyledInput = styled.input`
   background-color: ${colors.white};
   border: 1px solid ${colors.white};
   padding: 2px;
-  margin-top: 16px;
+  margin: 16px 20px 0 0;
   &:focus {
     border: 1px solid ${colors.black};
   }

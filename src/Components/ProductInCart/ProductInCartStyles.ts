@@ -42,12 +42,31 @@ export const StyledIconTrash = styled.i`
 
 export const StyledQuantityContainer = styled.div`
   display: flex;
-  width: 100px;
+  width: 120px;
 `;
 
-export const StyledProductQuantity = styled.div`
-  width: 8px;
+export const StyledProductQuantity = styled.input.attrs({
+  type: 'number',
+  min: 1,
+  max: 99,
+})`
+  width: 28px;
   height: 25px;
+  text-align: center;
+  margin: 0 5px;
+  border: 1px solid ${colors.secondary};
+  border-radius: 4px;
+  padding: 0 5px;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const StyledProductPriceContainer = styled.div`

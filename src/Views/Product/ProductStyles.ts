@@ -2,6 +2,16 @@ import styled from 'styled-components';
 import size from '../../styles/breakpoints';
 import colors from '../../styles/colors';
 
+export const StyledContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: ${size.lg}) {
+    flex-direction: column;
+  }
+`;
+
 export const StyledSliderContainer = styled.div`
   width: 400px;
   height: 320px;
@@ -49,13 +59,28 @@ export const StyledAmountContainer = styled.div`
   align-items: center;
 `;
 
-export const StyledProductQuantity = styled.div`
-  width: 8px;
+export const StyledProductQuantity = styled.input.attrs({
+  type: 'number',
+  min: 1,
+  max: 99,
+})`
+  width: 28px;
   height: 25px;
-`;
+  text-align: center;
+  margin: 0 5px;
+  border: 1px solid ${colors.secondary};
+  border-radius: 4px;
+  padding: 0 5px;
 
-export const StyledButtonContainer = styled.div`
-  width: 50%;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const StyledIconShoppingCart = styled.i`

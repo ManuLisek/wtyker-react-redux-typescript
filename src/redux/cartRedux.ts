@@ -21,6 +21,7 @@ export const REMOVE_PRODUCT = createActionName('REMOVE_PRODUCT');
 export const COUNT_PRODUCTS = createActionName('COUNT_PRODUCTS');
 export const INCREASE_QUANTITY = createActionName('INCREASE_QUANTITY');
 export const DECREASE_QUANTITY = createActionName('DECREASE_QUANTITY');
+export const UPDATE_QUANTITY = createActionName('UPDATE_QUANTITY');
 export const COUNT_PRICE = createActionName('COUNT_PRICE');
 export const CLEAR_CART = createActionName('CLEAR_CART');
 
@@ -40,6 +41,10 @@ export const increaseQuantityInCart = (payload: ProductInCartType) => ({
 export const decreaseQuantityInCart = (payload: ProductInCartType) => ({
   payload,
   type: DECREASE_QUANTITY,
+});
+export const updateQuantityInCart = (payload: { product: ProductInCartType; newQuantity: number }) => ({
+  payload,
+  type: UPDATE_QUANTITY,
 });
 export const countTotalPrice = (payload: number) => ({ payload, type: COUNT_PRICE });
 export const clearCart = (payload: CartState) => ({ payload, type: CLEAR_CART });
@@ -87,6 +92,20 @@ export default function reducer(statePart: CartState = {} as CartState, action: 
             };
           }
           return product;
+        }),
+      };
+    case UPDATE_QUANTITY:
+      const { product, newQuantity } = action.payload as { product: ProductInCartType; newQuantity: number };
+      return {
+        ...statePart,
+        productsInCart: statePart.productsInCart.map((p) => {
+          if (p.id === product.id) {
+            return {
+              ...p,
+              quantity: newQuantity,
+            };
+          }
+          return p;
         }),
       };
     case COUNT_PRICE:
