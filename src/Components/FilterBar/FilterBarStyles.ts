@@ -14,7 +14,7 @@ export const StyledFilterBarContainer = styled.div`
   left: 0;
   top: 250px;
   margin: 20px 0 20px 0;
-  @media (max-width: ${size.md}) {
+  @media (max-width: ${size.lg}) {
     width: 100%;
     letter-spacing: 0.8px;
   }

@@ -7,6 +7,7 @@ import SimpleImageSlider from 'react-simple-image-slider';
 import { getProduct } from '../../api/axiosConfig';
 import {
   StyledContainer,
+  StyledCenterDiv,
   StyledSliderContainer,
   StyledDescriptionContainer,
   StyledTitle,
@@ -96,15 +97,15 @@ const Product = ({ cart, totalQuantity, totalPrice, addProductToCart, countProdu
   };
 
   if (loading) {
-    return <div>Ładowanie...</div>;
+    return <StyledCenterDiv>Ładowanie...</StyledCenterDiv>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <StyledCenterDiv>{error}</StyledCenterDiv>;
   }
 
   if (!product) {
-    return <div>Nie znaleziono takiego produktu</div>;
+    return <StyledCenterDiv>Nie znaleziono takiego produktu</StyledCenterDiv>;
   }
 
   const images = [{ url: product.image1 }, { url: product.image2 }];

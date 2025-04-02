@@ -3,7 +3,7 @@ import size from '../../styles/breakpoints';
 import colors from '../../styles/colors';
 
 export const StyledContainer = styled.div`
-  width: 40%;
+  width: 65%;
   overflow: hidden;
   min-height: 341px;
   background-color: ${colors.white};
@@ -15,6 +15,7 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
   box-shadow: ${colors.shadow};
   @media (max-width: ${size.lg}) {
     width: 70%;

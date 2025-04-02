@@ -2,6 +2,14 @@ import styled from 'styled-components';
 import size from '../../styles/breakpoints';
 import colors from '../../styles/colors';
 
+export const StyledContainer = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  @media (max-width: ${size.md}) {
+    width: 100%;
+  }
+`;
+
 export const StyledNavContainer = styled.nav`
   display: flex;
   align-items: center;

@@ -7,9 +7,14 @@ export const StyledContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (max-width: ${size.lg}) {
+  @media (max-width: ${size.xl}) {
     flex-direction: column;
   }
+`;
+
+export const StyledCenterDiv = styled.div`
+  width: 100%;
+  text-align: center;
 `;
 
 export const StyledSliderContainer = styled.div`

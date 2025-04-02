@@ -2,21 +2,29 @@ import styled from 'styled-components';
 import size from '../../styles/breakpoints';
 import colors from '../../styles/colors';
 
-export const StyledFooterContainer = styled.footer`
-  background-color: ${colors.dark};
-  color: ${colors.white};
+export const StyledContainer = styled.div`
+  width: 80%;
   flex-basis: 100%;
   display: flex;
   justify-content: space-evenly;
-  margin-top: 180px;
+  margin: 0 auto;
   padding-bottom: 40px;
   bottom: 0;
-  max-height: 280px;
   @media (max-width: ${size.lg}) {
     flex-direction: column;
     align-items: right;
     max-height: unset;
   }
+  @media (max-width: ${size.md}) {
+    width: 100%;
+  }
+`;
+
+export const StyledFooterContainer = styled.footer`
+  width: 100%;
+  margin-top: 180px;
+  background-color: ${colors.dark};
+  color: ${colors.white};
 `;
 
 export const StyledHeader = styled.h3`
