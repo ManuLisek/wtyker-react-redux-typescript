@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './Views/Home/Home';
 import ProductsList from './Views/ProductsList/ProductsListContainer';
 import Product from './Views/Product/ProductContainer';
@@ -9,7 +9,7 @@ import ScrollToTop from './utilities/ScrollToTop';
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <ScrollToTop>
         <MainLayout>
           <Routes>
