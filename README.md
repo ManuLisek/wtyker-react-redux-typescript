@@ -1,4 +1,4 @@
-# wtyker-react-redux
+# wtyker-react-redux-typescript
 
 Project of fake online shop with electronics. You can filter and sort products in it, add them to the cart and place an order.
 
