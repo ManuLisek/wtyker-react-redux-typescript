@@ -32,6 +32,7 @@ const Product = ({ cart, totalQuantity, totalPrice, addProductToCart, countProdu
   const { id } = useParams<{ id: string }>();
   const [itemsQuantity, setItemsQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState<boolean>(false);
   const [product, setProduct] = useState<ProductType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +64,7 @@ const Product = ({ cart, totalQuantity, totalPrice, addProductToCart, countProdu
       addProductToCart(productWithQuantity);
       countProductsInCart(totalQuantity + itemsQuantity);
       countTotalPrice(totalPrice + product.price * itemsQuantity);
+      setShowSuccessPopup(true);
     } else {
       setShowPopup(true);
     }
@@ -140,6 +142,9 @@ const Product = ({ cart, totalQuantity, totalPrice, addProductToCart, countProdu
       </StyledDescriptionContainer>
       <Popup trigger={showPopup} closePopup={() => setShowPopup(false)}>
         <h3>Ten produkt jest już w koszyku</h3>
+      </Popup>
+      <Popup trigger={showSuccessPopup} closePopup={() => setShowSuccessPopup(false)}>
+        <h3>Produkt dodany do koszyka</h3>
       </Popup>
     </StyledContainer>
   );
