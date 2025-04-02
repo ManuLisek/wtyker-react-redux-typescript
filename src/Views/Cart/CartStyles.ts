@@ -3,7 +3,7 @@ import size from '../../styles/breakpoints';
 import colors from '../../styles/colors';
 
 export const StyledContainer = styled.div`
-  width: 40%;
+  width: 65%;
   overflow: hidden;
   min-height: 341px;
   background-color: ${colors.white};
