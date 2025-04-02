@@ -1,5 +1,3 @@
-import { PersistPartial } from 'redux-persist/es/persistReducer';
-
 export interface PriceType {
   from: number;
   to: number;
@@ -40,16 +38,10 @@ export interface CartState {
   totalPrice: number;
 }
 
-export interface PersistState {
-  rehydrated: boolean;
-  version: number;
-}
-
-export interface RootState extends PersistPartial {
+export interface RootState {
   products: ProductType[];
   filters: FiltersState;
   cart: CartState;
-  _persist: PersistState;
 }
 
 export interface ButtonProps {
