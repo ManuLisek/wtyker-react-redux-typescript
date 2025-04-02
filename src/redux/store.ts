@@ -1,10 +1,11 @@
 import { combineReducers, createStore, Store, AnyAction } from 'redux';
-import { persistStore, persistReducer, Persistor } from 'redux-persist';
+import { persistStore, persistReducer, Persistor, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 import filtersReducer from './filtersRedux';
 import cartReducer from './cartRedux';
 import productsReducer from './productsListRedux';
-import { FiltersState, CartState, RootState, PersistState } from '../types/types';
+import { FiltersState, CartState } from '../types/types';
 
 export const filtersInitialState: FiltersState = {
   searchPhrase: '',
@@ -24,31 +25,20 @@ export const cartInitialState: CartState = {
   delivery: 20,
 };
 
-const initialState: RootState = {
-  products: [],
-  filters: filtersInitialState,
-  cart: cartInitialState,
-  _persist: {
-    rehydrated: false,
-    version: -1,
-  },
-};
-
-const reducers = {
+const rootReducer = combineReducers({
   products: productsReducer,
   filters: filtersReducer,
   cart: cartReducer,
-  _persist: (state: PersistState = initialState._persist) => state,
-};
+});
 
-const combinedReducers = combineReducers(reducers);
+type RootReducerState = ReturnType<typeof rootReducer>;
 
-const persistConfig = {
+const persistConfig: PersistConfig<RootReducerState> = {
   key: 'root',
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, combinedReducers);
+const persistedReducer = persistReducer<RootReducerState>(persistConfig, rootReducer);
 
 declare global {
   interface Window {
@@ -56,6 +46,10 @@ declare global {
   }
 }
 
-export const store: Store<RootState, AnyAction> = createStore(persistedReducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__?.());
+export const store: Store<RootReducerState & PersistPartial, AnyAction> = createStore(
+  persistedReducer,
+  undefined,
+  window.__REDUX_DEVTOOLS_EXTENSION__?.(),
+);
 
 export const persistor: Persistor = persistStore(store);
