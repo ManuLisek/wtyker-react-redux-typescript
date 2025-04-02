@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../../Components/Button/Button';
 import RoundButton from '../../Components/RoundButton/RoundButton';
 import { useParams } from 'react-router-dom';
 import Popup from '../../Components/Popup/Popup';
 import SimpleImageSlider from 'react-simple-image-slider';
+import { getProduct } from '../../api/axiosConfig';
 import {
   StyledContainer,
   StyledSliderContainer,
@@ -19,7 +20,6 @@ import { CartState, ProductType } from '../../types/types';
 
 interface ProductComponentProps {
   cart: CartState;
-  products: ProductType[];
   totalQuantity: number;
   totalPrice: number;
   addProductToCart: (product: ProductType & { quantity: number }) => void;
@@ -27,41 +27,59 @@ interface ProductComponentProps {
   countTotalPrice: (price: number) => void;
 }
 
-const Product = ({
-  cart,
-  products,
-  totalQuantity,
-  totalPrice,
-  addProductToCart,
-  countProductsInCart,
-  countTotalPrice,
-}: ProductComponentProps) => {
+const Product = ({ cart, totalQuantity, totalPrice, addProductToCart, countProductsInCart, countTotalPrice }: ProductComponentProps) => {
   const { id } = useParams<{ id: string }>();
   const [itemsQuantity, setItemsQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [product, setProduct] = useState<ProductType | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const foundProduct = products.find((p: ProductType) => p.id === Number(id));
-  if (!foundProduct) {
-    return <div>Product not found</div>;
-  }
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await getProduct(Number(id));
+        setProduct(response.data.product);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Coś poszło nie tak, spróbuj ponownie później.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const product: ProductType = foundProduct;
+    fetchProduct();
+  }, [id]);
 
-  const images = [{ url: product.image1 }, { url: product.image2 }];
+  const handleAddProductToCart = () => {
+    if (!product) return;
 
-  function handleIncreaseItemsQuantity() {
+    if (!cart.productsInCart.some((element) => element.id === product.id)) {
+      const productWithQuantity: ProductType & { quantity: number } = {
+        ...product,
+        quantity: itemsQuantity,
+      };
+      addProductToCart(productWithQuantity);
+      countProductsInCart(totalQuantity + itemsQuantity);
+      countTotalPrice(totalPrice + product.price * itemsQuantity);
+    } else {
+      setShowPopup(true);
+    }
+  };
+
+  const handleIncreaseItemsQuantity = () => {
     if (itemsQuantity < 99) {
       setItemsQuantity((prev) => prev + 1);
     }
-  }
+  };
 
-  function handleDecreaseItemsQuantity() {
+  const handleDecreaseItemsQuantity = () => {
     if (itemsQuantity > 1) {
       setItemsQuantity((prev) => prev - 1);
     }
-  }
+  };
 
-  function handleQuantityChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     if (value === '') {
@@ -75,17 +93,21 @@ const Product = ({
         setItemsQuantity(numValue);
       }
     }
+  };
+
+  if (loading) {
+    return <div>Ładowanie...</div>;
   }
 
-  function handleAddProductToCart() {
-    if (!cart.productsInCart.some((element) => element.id === product.id)) {
-      addProductToCart({ ...product, quantity: itemsQuantity });
-      countProductsInCart(totalQuantity + itemsQuantity);
-      countTotalPrice(totalPrice + product.price * itemsQuantity);
-    } else {
-      setShowPopup(true);
-    }
+  if (error) {
+    return <div>{error}</div>;
   }
+
+  if (!product) {
+    return <div>Nie znaleziono takiego produktu</div>;
+  }
+
+  const images = [{ url: product.image1 }, { url: product.image2 }];
 
   return (
     <StyledContainer>

@@ -1,7 +1,5 @@
 import { FiltersState, PriceType, ProductType, Action } from '../types/types';
 
-/* SELECTORS */
-export const getAllProducts = ({ products }: { products: ProductType[] }) => products;
 export const getAllFilters = ({ filters }: { filters: FiltersState }) => filters;
 export const getAllTags = ({ products }: { products: ProductType[] }) => {
   const allTags: string[] = [];

@@ -20,6 +20,7 @@
                 "singleQuote": true,
                 "endOfLine": "auto"
             }
-        ]
+        ],
+        "import/no-anonymous-default-export": "off"
     }
 }
