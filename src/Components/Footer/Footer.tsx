@@ -22,24 +22,36 @@ const Footer = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
+  const [shouldValidate, setShouldValidate] = useState<boolean>(false);
 
-  const validateEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const email = e.target.value;
-    setInputValue(email);
-    if (validator.isEmail(email)) {
-      setEmailError('');
-    } else {
+  const validateEmail = () => {
+    if (inputValue === '') {
+      setEmailError('To pole musi być wypełnione');
+      return false;
+    } else if (!validator.isEmail(inputValue)) {
       setEmailError('Podaj poprawny adres email');
+      return false;
     }
+    setEmailError('');
+    return true;
   };
 
   const handleEmailSent = () => {
-    if (inputValue === '') {
-      setEmailError('To pole musi być wypełnione');
-    } else if (!emailError) {
+    setShouldValidate(true);
+    const isValid = validateEmail();
+
+    if (isValid) {
       setShowPopup(true);
       setInputValue('');
       setEmailError('');
+      setShouldValidate(false);
+    }
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    if (shouldValidate) {
+      validateEmail();
     }
   };
 
@@ -85,7 +97,7 @@ const Footer = () => {
                 type="text"
                 value={inputValue}
                 placeholder="Twój adres email..."
-                onChange={validateEmail}
+                onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
               />
               <StyledEmailError>{emailError ? emailError : ''}</StyledEmailError>
